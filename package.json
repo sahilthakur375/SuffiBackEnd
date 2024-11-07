@@ -1,0 +1,23 @@
+{
+  "name": "suffi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.0",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.7.5"
+  }
+}
