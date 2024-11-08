@@ -10,6 +10,12 @@ const secret = "1234"; // Secret key for signing JWTs
 // Function to create a new user
 export const createUser = async (req, res) => {
     try {
+        const { password } = req.body;
+
+        const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{8,}$/;
+        if (!password || !passwordRequirements.test(password)) {
+            return sendResponse(res, 400, false, "Password must be 8 characters long, at least one uppercase,one lowercase,one special character,and one number.");
+        }
         // Hash the user's password
         const hash = await bcrypt.hash(req.body.password, salt);
         
@@ -35,19 +41,19 @@ export const loginUser = async (req, res) => {
         // Find the user by email
         const user = await models.User.findOne({ email }).lean();
         if (!user) {
+            
             // If user not found, return error
-            return res.status(400).json({ success: false, message: 'Invalid email or password' });
+            return res.status(400).json({ success: false, message: 'Invalid email ' });
         }
 
         // Check if the provided password matches the hashed password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             // If password is incorrect, return error
-            return res.status(400).json({ success: false, message: 'Invalid email or password' });
+            return res.status(400).json({ success: false, message: 'Invalid password' });
         }
-
         // Create a JWT token with user information
-        const token = jwt.sign({ id: user._id, email: user.email }, secret, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user._id, email: user.email }, secret, );    //{ expiresIn: "1h" }
 
         // Send a success response with user data and token
         res.status(200).json({ success: true, message: 'Login successfully', user: { ...user, token } });
