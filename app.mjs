@@ -14,6 +14,14 @@ connect(); // Establish a connection to the database
 // Create an HTTP server
 const server = http.createServer(app);
 
+import sendMail from './controller/sendMail.mjs';
+
+app.get("/", (req, res) => {
+  res.send("A server")
+})
+
+app.get("/mail", sendMail);
+
 // Create a Socket.IO server and attach it to the HTTP server
 const io = new SocketIOServer(server);
 
